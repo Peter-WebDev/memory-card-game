@@ -1,12 +1,12 @@
 'use server';
-import type { Prisma } from '@/generated/prisma';
+import type { Category, GameResult } from '@prisma/client';
 import { db } from '@/lib/db';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
-export type GameResultWithCategory = Prisma.GameResultGetPayload<{
-  include: { category: true };
-}>;
+export type GameResultWithCategory = GameResult & {
+  category: Category;
+};
 
 const gameResultSchema = z.object({
   name: z.string().min(3, {
