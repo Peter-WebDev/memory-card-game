@@ -3,9 +3,6 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   distDir: process.env.NODE_ENV === 'test' ? '.test' : '.next',
   serverExternalPackages: ['@prisma/client'],
-  outputFileTracingIncludes: {
-    '/**': ['./generated/prisma/**/*'],
-  },
   images: {
     remotePatterns: [
       {
