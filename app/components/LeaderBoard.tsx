@@ -1,3 +1,4 @@
+import { formatTime } from "@/lib/utils";
 import { GameResultWithCategory } from "../actions";
 
 interface LeaderBoardProps {
@@ -8,27 +9,18 @@ interface LeaderBoardProps {
 
 export default function LeaderBoard({ results, isLoading, isError }: LeaderBoardProps) {
 
-    const formatTime = (totalSeconds: number): string => {
-        const minutes = Math.floor(totalSeconds / 60);
-        const seconds = totalSeconds % 60;
-
-        const formattedMinutes = String(minutes).padStart(2, '0');
-        const formattedSeconds = String(seconds).padStart(2, '0');
-
-        return `${formattedMinutes}:${formattedSeconds}`;
-    };
     return (
         <div data-cy="leaderboard" className="p-6 rounded-lg border">
             <h2 className="text-xl font-bold mb-4">Leaderboard</h2>
             {isLoading ? (
                 <p className="text-center">Laddar...</p>
             ) : isError ? (
-                <p className="text-center">Något gick fel: {isError.message}</p>
-            ) : results.length === 0 ? (
+                <p className="text-center">Något gick fel</p>
+            ) : results?.length === 0 ? (
                 <p className="text-center">Inga resultat ännu</p>
             ) : (
                 <div className="space-y-2">
-                    {results.map((result, index) => (
+                    {results?.map((result, index) => (
                         <div
                             key={result.id}
                             data-cy="leaderboard-item"

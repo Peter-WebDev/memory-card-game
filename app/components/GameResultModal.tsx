@@ -1,6 +1,6 @@
 'use client';
 import { useQueryClient } from "@tanstack/react-query";
-import { FormEvent, useRef, useTransition } from "react";
+import React, { useRef, useTransition } from "react";
 import { addGameResult } from "../actions";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
@@ -19,7 +19,7 @@ export default function GameResultModal({ isOpen, onClose, time, attempts, categ
     const formRef = useRef<HTMLFormElement>(null);
     const queryClient = useQueryClient();
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (!formRef.current) return;
@@ -29,7 +29,7 @@ export default function GameResultModal({ isOpen, onClose, time, attempts, categ
             addGameResult(formData).then((result) => {
                 console.log(result);
                 if (result.success) {
-                    queryClient.invalidateQueries({ queryKey: ['leaderboard'] });
+                    queryClient.invalidateQueries({ queryKey: ['topGameResults'] });
                     onClose();
                 }
             });

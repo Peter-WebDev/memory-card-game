@@ -2,6 +2,7 @@
 import type { Asset } from '@/generated/prisma';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { formatTime } from '@/lib/utils';
 import Card from './Card';
 import GameResultModal from './GameResultModal';
 interface GameCard {
@@ -33,16 +34,6 @@ const getAssets = async (): Promise<Asset[]> => {
         throw new Error('Failed to fetch assets');
     }
     return response.json();
-};
-
-const formatTime = (totalSeconds: number): string => {
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-
-    const formattedMinutes = String(minutes).padStart(2, '0');
-    const formattedSeconds = String(seconds).padStart(2, '0');
-
-    return `${formattedMinutes}:${formattedSeconds}`;
 };
 
 export default function GameBoard({ onNewGame }: GameBoardProps) {
@@ -148,17 +139,18 @@ export default function GameBoard({ onNewGame }: GameBoardProps) {
             if (firstCard && secondCard && firstCard.imageUrl === secondCard.imageUrl) {
                 // Match found - mark cards as matched
                 setTimeout(() => {
-                    const nextCards = cards.map(c =>
-                        c.id === firstCardId || c.id === secondCardId
-                            ? { ...c, isMatched: true, isFlipped: true }
-                            : c
-                    );
-                    setCards(nextCards);
+                    setCards(prevCards => {
+                        const nextCards = prevCards.map(c =>
+                            c.id === firstCardId || c.id === secondCardId
+                                ? { ...c, isMatched: true, isFlipped: true }
+                                : c
+                        );
+                        if (nextCards.every(c => c.isMatched)) {
+                            setIsGameFinished(true);
+                        }
+                        return nextCards;
+                    });
                     setFlippedCards([]);
-
-                    if (nextCards.every(c => c.isMatched)) {
-                        setIsGameFinished(true);
-                    }
                 });
 
             } else {

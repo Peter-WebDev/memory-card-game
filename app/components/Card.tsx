@@ -7,6 +7,7 @@ type CardProps = {
     isMatched: boolean;
     onClick: () => void;
     'data-cy'?: string;
+    'data-asset-url'?: string;
 };
 
 export default function Card({
@@ -14,11 +15,13 @@ export default function Card({
     isFlipped,
     isMatched,
     onClick,
-    'data-cy': dataCy
+    'data-cy': dataCy,
+    'data-asset-url': dataAssetUrl,
 }: CardProps) {
     return (
         <div
             data-cy={dataCy}
+            data-asset-url={dataAssetUrl}
             data-flipped={isFlipped}
             data-matched={isMatched}
             onClick={!isFlipped ? onClick : undefined}
