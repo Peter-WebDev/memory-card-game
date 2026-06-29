@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 export async function GET() {
   try {
     const category = await db.category.findUnique({
-      where: { name: 'Animals' },
+      where: { name: 'Food & Drink' },
       include: { assets: true },
     });
 
