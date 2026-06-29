@@ -1,5 +1,5 @@
 'use client';
-import type { Asset } from '@prisma/client';
+import type { Asset } from '@/generated/prisma';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { formatTime } from '@/lib/utils';

@@ -1,5 +1,5 @@
 'use server';
-import type { Category, GameResult } from '@prisma/client';
+import type { Category, GameResult } from '@/generated/prisma';
 import { db } from '@/lib/db';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
