@@ -14,6 +14,10 @@ interface GameCard {
 
 interface GameBoardProps {
     onNewGame: number;
+    category: string;
+    // Lets the parent know whether a game is mid-play (for the category
+    // switch confirmation) — true once cards are flipped but not yet won.
+    onProgressChange?: (inProgress: boolean) => void;
 }
 
 const shuffleArray = (array: Asset[]): Asset[] => {
@@ -27,19 +31,19 @@ const shuffleArray = (array: Asset[]): Asset[] => {
 };
 
 
-// Function to fetch assets from API
-const getAssets = async (): Promise<Asset[]> => {
-    const response = await fetch('/api/assets');
+// Function to fetch assets from API for a given category
+const getAssets = async (category: string): Promise<Asset[]> => {
+    const response = await fetch(`/api/assets?category=${encodeURIComponent(category)}`);
     if (!response.ok) {
         throw new Error('Failed to fetch assets');
     }
     return response.json();
 };
 
-export default function GameBoard({ onNewGame }: GameBoardProps) {
+export default function GameBoard({ onNewGame, category, onProgressChange }: GameBoardProps) {
     const { data: assets, isLoading, isError } = useQuery({
-        queryKey: ['gameAssets'],
-        queryFn: getAssets,
+        queryKey: ['gameAssets', category],
+        queryFn: () => getAssets(category),
     });
 
     const [cards, setCards] = useState<GameCard[]>([]);
@@ -86,6 +90,14 @@ export default function GameBoard({ onNewGame }: GameBoardProps) {
             resetGame();
         }
     }, [onNewGame, resetGame]);
+
+    // A game counts as "in progress" once the player has started interacting
+    // (attempts made or cards flipped) but has not yet finished.
+    useEffect(() => {
+        const inProgress =
+            !isGameFinished && (attempts > 0 || flippedCards.length > 0);
+        onProgressChange?.(inProgress);
+    }, [attempts, flippedCards.length, isGameFinished, onProgressChange]);
 
     useEffect(() => {
         if (isTimerRunning) {

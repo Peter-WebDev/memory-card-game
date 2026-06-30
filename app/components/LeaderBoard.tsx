@@ -13,11 +13,11 @@ export default function LeaderBoard({ results, isLoading, isError }: LeaderBoard
         <div data-cy="leaderboard" className="p-6 rounded-lg border">
             <h2 className="text-xl font-bold mb-4">Leaderboard</h2>
             {isLoading ? (
-                <p className="text-center">Laddar...</p>
+                <p className="text-left">Loading...</p>
             ) : isError ? (
-                <p className="text-center">Något gick fel</p>
+                <p className="text-left">Something went wrong</p>
             ) : results?.length === 0 ? (
-                <p className="text-center">Inga resultat ännu</p>
+                <p className="text-left">No results yet</p>
             ) : (
                 <div className="space-y-2">
                     {results?.map((result, index) => (

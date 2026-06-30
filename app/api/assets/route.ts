@@ -1,10 +1,17 @@
 import { db } from '@/lib/db';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET() {
+// Default category served when no ?category= is provided (e.g. first page
+// load and the Cypress E2E flow, which visit '/' without selecting one).
+const DEFAULT_CATEGORY = 'Food & Drink';
+
+export async function GET(request: NextRequest) {
   try {
+    const categoryName =
+      request.nextUrl.searchParams.get('category') || DEFAULT_CATEGORY;
+
     const category = await db.category.findUnique({
-      where: { name: 'Food & Drink' },
+      where: { name: categoryName },
       include: { assets: true },
     });
 
