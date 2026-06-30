@@ -156,3 +156,28 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* 3D flip-card utilities.
+   Tailwind v4 has no built-in classes for these, so the Card component's
+   flip animation relied on class names that resolved to nothing. Defining
+   them here makes backface-visibility actually hide the back of each face,
+   which is what stops the "?" side bleeding through the image. */
+@utility transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+@utility backface-hidden {
+  backface-visibility: hidden;
+}
+
+@utility backface-visible {
+  backface-visibility: visible;
+}
+
+@utility rotate-x-180 {
+  transform: rotateX(180deg);
+}
+
+@utility perspective-card {
+  perspective: 1000px;
+}

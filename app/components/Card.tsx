@@ -5,6 +5,9 @@ type CardProps = {
     imageUrl: string;
     isFlipped: boolean;
     isMatched: boolean;
+    // Card is only rendered by GameBoard (also a Client Component), so this
+    // function prop never crosses a server/client boundary despite the
+    // "use client" entry-file lint warning.
     onClick: () => void;
     'data-cy'?: string;
     'data-asset-url'?: string;
@@ -18,6 +21,11 @@ export default function Card({
     'data-cy': dataCy,
     'data-asset-url': dataAssetUrl,
 }: CardProps) {
+    // Icons (Food & Drink, from Iconify) are SVGs that should be shown whole
+    // with padding; photos (Dogs/Cats) should cover the whole card edge to edge.
+    // The Iconify URL is like ".../name.svg?width=100", so match .svg anywhere.
+    const isIcon = imageUrl.includes('.svg');
+
     return (
         <div
             data-cy={dataCy}
@@ -26,8 +34,9 @@ export default function Card({
             data-matched={isMatched}
             onClick={!isFlipped ? onClick : undefined}
             className={`
-        relative w-24 h-24 sm:w-32 sm:h-32 rounded-lg cursor-pointer
-        transition-transform duration-500 transform-style-3d
+        relative w-24 h-24 sm:w-32 sm:h-32 rounded-lg
+        perspective-card transition-transform duration-500 transform-style-3d
+        ${isFlipped || isMatched ? 'cursor-default' : 'cursor-pointer'}
         ${isFlipped ? 'rotate-x-180' : ''}
         ${isMatched ? 'opacity-50' : ''}
       `}
@@ -35,20 +44,32 @@ export default function Card({
             <div
                 className={`
           absolute inset-0 rounded-lg
-          bg-gray-500 flex justify-center items-center
-          ${isFlipped ? 'backface-hidden' : 'backface-visible'}
+          border-b-4 border-gray-700
+          bg-gray-500
+          transition-colors duration-200
+          flex justify-center items-center
+          ${isFlipped ? 'backface-hidden' : 'backface-visible hover:border-gray-900 hover:bg-gray-600'}
         `}
             >
-                <div className="text-xl sm:text-2xl text-white font-bold">?</div>
+                <div className="text-5xl sm:text-6xl text-white font-bold select-none">?</div>
             </div>
             <div
                 className={`
-          absolute inset-0 rounded-lg
+          absolute inset-0 rounded-lg overflow-hidden bg-white
+          border-b-4 border-gray-700
+          flex justify-center items-center
+          ${isIcon ? 'p-2' : ''}
           rotate-x-180 transition-transform duration-500
           ${isFlipped ? 'backface-visible' : 'backface-hidden'}
         `}
             >
-                {isFlipped && <Image src={imageUrl} alt="" className="w-full h-full object-cover rounded-lg" width={100} height={100}></Image>}
+                <Image
+                    src={imageUrl}
+                    alt=""
+                    className={`w-full h-full rounded-lg ${isIcon ? 'object-contain' : 'object-cover'}`}
+                    width={100}
+                    height={100}
+                />
             </div>
         </div>
 
