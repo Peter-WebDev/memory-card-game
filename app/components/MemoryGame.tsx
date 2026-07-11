@@ -33,7 +33,7 @@ export default function MemoryGame() {
     };
 
     return (
-        <section className="grid place-items-center gap-8">
+        <section className="grid place-items-center gap-4">
             <CategoryPicker
                 selectedCategory={selectedCategory}
                 onSelectCategory={handleSelectCategory}
@@ -47,7 +47,7 @@ export default function MemoryGame() {
             >
                 New Game
             </Button>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 w-full">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 w-full">
                 <GameBoard
                     onNewGame={newGameTrigger}
                     category={selectedCategory}
