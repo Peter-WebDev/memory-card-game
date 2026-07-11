@@ -186,15 +186,15 @@ export default function GameBoard({ onNewGame, category, onProgressChange }: Gam
         const skeletonCards = Array.from({ length: 16 }, (_, index) => (
             <div
                 key={`skeleton-${index}`}
-                className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-lg bg-gray-500 flex justify-center items-center"
+                className="relative w-18 h-18 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-lg bg-gray-500 flex justify-center items-center"
             >
-                <div className="w-6 h-6 border-2 border-gray-100 border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-3 h-3 sm:w-5 sm:h-5 md:w-6 md:h-6 border-2 border-gray-100 border-t-transparent rounded-full animate-spin"></div>
             </div>
         ));
 
         return (
             <div className="flex flex-col items-center lg:col-span-2">
-                <div data-cy="game-board" className="grid grid-cols-4 gap-4">
+                <div data-cy="game-board" className="grid grid-cols-4 gap-2 sm:gap-3 md:gap-4">
                     {skeletonCards}
                 </div>
                 <div className="flex flex-row flex-wrap gap-4 justify-center items-center mt-4">
@@ -215,7 +215,7 @@ export default function GameBoard({ onNewGame, category, onProgressChange }: Gam
 
     return (
         <div className="flex flex-col items-center lg:col-span-2">
-            <div data-cy="game-board" className="grid grid-cols-4 gap-4">
+            <div data-cy="game-board" className="grid grid-cols-4 gap-2 sm:gap-3 md:gap-4">
                 {cards.map((card, index) => (
                     <Card
                         key={card.id}

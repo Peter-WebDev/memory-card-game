@@ -34,7 +34,7 @@ export default function Card({
             data-matched={isMatched}
             onClick={!isFlipped ? onClick : undefined}
             className={`
-        relative w-24 h-24 sm:w-32 sm:h-32 rounded-lg
+        relative w-18 h-18 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-lg
         perspective-card transition-transform duration-500 transform-style-3d
         ${isFlipped || isMatched ? 'cursor-default' : 'cursor-pointer'}
         ${isFlipped ? 'rotate-x-180' : ''}
@@ -51,7 +51,7 @@ export default function Card({
           ${isFlipped ? 'backface-hidden' : 'backface-visible hover:border-gray-900 hover:bg-gray-600'}
         `}
             >
-                <div className="text-5xl sm:text-6xl text-white font-bold select-none">?</div>
+                <div className="text-3xl sm:text-5xl md:text-6xl text-white font-bold select-none">?</div>
             </div>
             <div
                 className={`
@@ -66,7 +66,7 @@ export default function Card({
                 <Image
                     src={imageUrl}
                     alt=""
-                    className={`w-full h-full rounded-lg ${isIcon ? 'object-contain' : 'object-cover'}`}
+                    className={`w-full h-full ${isIcon ? 'object-contain' : 'object-cover'}`}
                     width={100}
                     height={100}
                 />
