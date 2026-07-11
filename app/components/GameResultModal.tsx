@@ -44,15 +44,15 @@ export default function GameResultModal({ isOpen, onClose, time, attempts, categ
                         <DialogTitle>Congratulations!</DialogTitle>
                         <DialogDescription>You won the game! Enter your name to save your score</DialogDescription>
                     </DialogHeader>
-                    <div data-cy="score-display" className="py-4">
+                    <div data-cy="score-display" className="py-1">
                         <p>Time: <span data-cy="time-final">{time}</span></p>
                         <p>Flips: <span data-cy="attempts-final">{attempts}</span></p>
                     </div>
-                    <form ref={formRef} onSubmit={handleSubmit}>
+                    <form ref={formRef} onSubmit={handleSubmit} className="grid gap-4">
                         <input type="hidden" name="time" value={time} />
                         <input type="hidden" name="attempts" value={attempts} />
                         <input type="hidden" name="categoryId" value={categoryId} />
-                        <div className="grid gap-4 py-4">
+                        <div className="grid gap-4">
                             <Label htmlFor="name">Name</Label>
                             <input data-cy="player-name-input" required type="text" id="name" name="name" className="block w-full rounded-md border-0 p-4 shadow-sm ring-1 ring-inset" />
                         </div>

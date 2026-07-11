@@ -92,12 +92,16 @@ export default function GameBoard({ onNewGame, category, onProgressChange }: Gam
     }, [onNewGame, resetGame]);
 
     // A game counts as "in progress" once the player has started interacting
-    // (attempts made or cards flipped) but has not yet finished.
+    // (attempts made or cards flipped) but has not yet matched every pair.
+    // Completion is derived from the board itself, not the win modal's
+    // `isGameFinished` flag: that flag flips back to false when the modal is
+    // dismissed while the board stays fully matched, which used to make this
+    // recompute as `true` and falsely prompt "Switch category?" after a win.
     useEffect(() => {
-        const inProgress =
-            !isGameFinished && (attempts > 0 || flippedCards.length > 0);
-        onProgressChange?.(inProgress);
-    }, [attempts, flippedCards.length, isGameFinished, onProgressChange]);
+        const started = attempts > 0 || flippedCards.length > 0;
+        const allMatched = cards.length > 0 && cards.every(c => c.isMatched);
+        onProgressChange?.(started && !allMatched);
+    }, [attempts, flippedCards.length, cards, onProgressChange]);
 
     useEffect(() => {
         if (isTimerRunning) {
