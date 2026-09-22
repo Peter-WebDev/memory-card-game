@@ -53,21 +53,23 @@ export default function MemoryGame() {
                     category={selectedCategory}
                     onProgressChange={setIsGameInProgress}
                 />
-                {isLoading && (
-                    <div className="p-6 rounded-lg border">
-                        <h2 className="text-xl font-bold mb-4">Leaderboard</h2>
-                        <p className="text-xl">Loading scores...</p>
-                    </div>
-                )}
-                {isError && (
-                    <div className="p-6 rounded-lg border">
-                        <h2 className="text-xl font-bold mb-4">Leaderboard</h2>
-                        <p className="text-red-500 text-xl">Error loading leaderboard.</p>
-                    </div>
-                )}
-                {results && (
-                    <LeaderBoard results={results} isLoading={isLoading} isError={isError} />
-                )}
+                <div className="relative">
+                    {isLoading && (
+                        <div className="lg:absolute lg:inset-0 overflow-y-auto p-6 rounded-lg border">
+                            <h2 className="text-xl font-bold mb-4">Leaderboard</h2>
+                            <p className="text-xl">Loading scores...</p>
+                        </div>
+                    )}
+                    {isError && (
+                        <div className="lg:absolute lg:inset-0 overflow-y-auto p-6 rounded-lg border">
+                            <h2 className="text-xl font-bold mb-4">Leaderboard</h2>
+                            <p className="text-red-500 text-xl">Error loading leaderboard.</p>
+                        </div>
+                    )}
+                    {results && (
+                        <LeaderBoard results={results} isLoading={isLoading} isError={isError} />
+                    )}
+                </div>
             </div>
         </section>
     );

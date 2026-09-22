@@ -224,7 +224,6 @@ export default function GameBoard({ onNewGame, category, onProgressChange }: Gam
                     <Card
                         key={card.id}
                         data-cy={`card-${index}`}
-                        data-asset-url={card.imageUrl}
                         imageUrl={card.imageUrl}
                         isFlipped={card.isFlipped}
                         isMatched={card.isMatched}

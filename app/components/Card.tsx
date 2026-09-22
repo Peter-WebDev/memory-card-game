@@ -1,16 +1,12 @@
-'use client';
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 type CardProps = {
     imageUrl: string;
     isFlipped: boolean;
     isMatched: boolean;
-    // Card is only rendered by GameBoard (also a Client Component), so this
-    // function prop never crosses a server/client boundary despite the
-    // "use client" entry-file lint warning.
     onClick: () => void;
     'data-cy'?: string;
-    'data-asset-url'?: string;
 };
 
 export default function Card({
@@ -19,17 +15,27 @@ export default function Card({
     isMatched,
     onClick,
     'data-cy': dataCy,
-    'data-asset-url': dataAssetUrl,
 }: CardProps) {
-    // Icons (Food & Drink, from Iconify) are SVGs that should be shown whole
-    // with padding; photos (Dogs/Cats) should cover the whole card edge to edge.
-    // The Iconify URL is like ".../name.svg?width=100", so match .svg anywhere.
     const isIcon = imageUrl.includes('.svg');
+
+    const isRevealed = isFlipped || isMatched;
+    const [showImage, setShowImage] = useState(isRevealed);
+
+    useEffect(() => {
+        if (isRevealed) {
+            setShowImage(true);
+            return;
+        }
+        const timeout = setTimeout(() => {
+            setShowImage(false);
+        }, 500); // Match the CSS transition duration
+
+        return () => clearTimeout(timeout);
+    }, [isRevealed]);
 
     return (
         <div
             data-cy={dataCy}
-            data-asset-url={dataAssetUrl}
             data-flipped={isFlipped}
             data-matched={isMatched}
             onClick={!isFlipped ? onClick : undefined}
@@ -63,13 +69,15 @@ export default function Card({
           ${isFlipped ? 'backface-visible' : 'backface-hidden'}
         `}
             >
-                <Image
-                    src={imageUrl}
-                    alt=""
-                    className={`w-full h-full ${isIcon ? 'object-contain' : 'object-cover'}`}
-                    width={100}
-                    height={100}
-                />
+                {showImage && (
+                    <Image
+                        src={imageUrl}
+                        alt=""
+                        className={`w-full h-full ${isIcon ? 'object-contain' : 'object-cover'}`}
+                        width={100}
+                        height={100}
+                    />
+                )}
             </div>
         </div>
 

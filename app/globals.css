@@ -181,3 +181,10 @@
 @utility perspective-card {
   perspective: 1000px;
 }
+
+/* Reserves the scrollbar's width on a scroll container even when it isn't
+   scrolling, so the leaderboard's contents don't shift sideways as results
+   cross the overflow threshold. Not a built-in Tailwind v4 utility. */
+@utility scrollbar-gutter-stable {
+  scrollbar-gutter: stable;
+}
