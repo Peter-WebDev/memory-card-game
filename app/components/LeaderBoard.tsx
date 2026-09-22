@@ -10,7 +10,7 @@ interface LeaderBoardProps {
 export default function LeaderBoard({ results, isLoading, isError }: LeaderBoardProps) {
 
     return (
-        <div data-cy="leaderboard" className="p-6 rounded-lg border">
+        <div data-cy="leaderboard" className="lg:absolute lg:inset-0 flex flex-col p-6 rounded-lg border">
             <h2 className="text-xl font-bold mb-4">Leaderboard</h2>
             {isLoading ? (
                 <p className="text-left">Loading...</p>
@@ -19,12 +19,12 @@ export default function LeaderBoard({ results, isLoading, isError }: LeaderBoard
             ) : results?.length === 0 ? (
                 <p className="text-left">No results yet</p>
             ) : (
-                <div className="space-y-2">
+                <div className="space-y-2 overflow-y-auto min-h-0 scrollbar-gutter-stable">
                     {results?.map((result, index) => (
                         <div
                             key={result.id}
                             data-cy="leaderboard-item"
-                            className="flex justify-between items-center py-2 border-b last:border-b-0"
+                            className="flex justify-between items-center py-2 pe-2 border-b last:border-b-0"
                         >
                             <div className="flex justify-between gap-2">
                                 <span className="ml-2">#{index + 1}</span>
