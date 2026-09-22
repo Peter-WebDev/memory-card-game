@@ -6,9 +6,7 @@ import waitOn from 'wait-on';
 export default defineConfig({
   e2e: {
     baseUrl: 'http://localhost:3100',
-    env: {
-      DISABLE_SHUFFLE: true,
-    },
+    allowCypressEnv: false,
     async setupNodeEvents(on) {
       // 1. Skapa en in-memory databas (replica set prisma gnäller annars)
       const mongo = await MongoMemoryReplSet.create({
@@ -18,10 +16,9 @@ export default defineConfig({
 
       // 2. Starta Next.js servern (på en annan port ex. 3100, som ansluter till 1)
       const server = spawn(
-        'npx',
-        ['next', 'dev', '--turbopack', '-p', '3100'],
+        process.execPath,
+        ['node_modules/next/dist/bin/next', 'dev', '--turbopack', '-p', '3100'],
         {
-          shell: true,
           env: {
             ...process.env,
             NODE_ENV: 'test',
