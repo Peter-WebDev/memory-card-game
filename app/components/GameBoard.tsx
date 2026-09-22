@@ -2,7 +2,7 @@
 import type { Asset } from '@/generated/prisma';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { formatTime } from '@/lib/utils';
+import { formatTime, prefetchCardImages } from '@/lib/utils';
 import Card from './Card';
 import GameResultModal from './GameResultModal';
 interface GameCard {
@@ -65,6 +65,8 @@ export default function GameBoard({ onNewGame, category, onProgressChange }: Gam
             isFlipped: false,
             isMatched: false,
         }));
+        
+        prefetchCardImages(selectedAssets.map(asset => asset.imageUrl));
 
         setCards(gameCards);
         setAttempts(0);
