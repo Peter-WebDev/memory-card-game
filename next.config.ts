@@ -8,8 +8,9 @@ const nextConfig: NextConfig = {
     '/api/assets': ['./generated/prisma/**/*'],
   },
   images: {
-    // Iconify serves the Food & Drink icons as SVG, which next/image only
-    // renders when SVG is explicitly allowed. The CSP keeps them inert.
+    // The Food & Drink icons are SVGs (self-hosted in public/icons/food),
+    // which next/image only optimizes when SVG is explicitly allowed. The CSP
+    // keeps them inert.
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
@@ -34,12 +35,6 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'cdn2.thecatapi.com',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'api.iconify.design',
         port: '',
         pathname: '/**',
       },

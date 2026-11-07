@@ -8,16 +8,16 @@
 // Sources (all free / keyless):
 //   Dogs        -> https://dog.ceo/dog-api/        (images.dog.ceo CDN)
 //   Cats        -> https://thecatapi.com/          (cdn2.thecatapi.com CDN)
-//   Food & Drink-> https://iconify.design/          (api.iconify.design SVGs)
+//   Food & Drink-> self-hosted SVGs in public/icons/food (Material Design
+//                  Icons, Apache 2.0, from the @mdi/svg package)
 
 export type SeedCategory = {
   name: string;
   imageUrls: string[];
 };
 
-// Build a deterministic Iconify SVG URL for a single icon (prefix:name).
-const icon = (name: string) =>
-  `https://api.iconify.design/${name}.svg?width=100&height=100`;
+// Path to a self-hosted food icon served from public/icons/food.
+const icon = (name: string) => `/icons/food/${name}.svg`;
 
 export const seedCategories: SeedCategory[] = [
   {
@@ -49,14 +49,14 @@ export const seedCategories: SeedCategory[] = [
   {
     name: 'Food & Drink',
     imageUrls: [
-      icon('mdi:food-apple'),
-      icon('mdi:hamburger'),
-      icon('mdi:pizza'),
-      icon('mdi:coffee'),
-      icon('mdi:cupcake'),
-      icon('mdi:ice-cream'),
-      icon('mdi:beer'),
-      icon('mdi:fruit-grapes'),
+      icon('food-apple'),
+      icon('hamburger'),
+      icon('pizza'),
+      icon('coffee'),
+      icon('cupcake'),
+      icon('ice-cream'),
+      icon('beer'),
+      icon('fruit-grapes'),
     ],
   },
 ];
